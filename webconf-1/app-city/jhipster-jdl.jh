@@ -1,0 +1,16 @@
+entity City {
+	name String
+}
+
+entity Customer {
+	name String
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	City to Customer{city}
+}
+
+// Set service options to all except few
+service all with serviceImpl
+
