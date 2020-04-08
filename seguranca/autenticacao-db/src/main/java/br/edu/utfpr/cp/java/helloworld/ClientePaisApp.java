@@ -17,7 +17,7 @@ public class ClientePaisApp extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.inMemoryAuthentication().withUser("john").password(encoder().encode("doe")).roles("user").and()
-				.withUser("anna").password(encoder().encode("doedoe")).roles("admin");
+				.withUser("anna").password(encoder().encode("doedoe")).roles("user", "admin");
 	}
 
 	@Override
@@ -25,13 +25,17 @@ public class ClientePaisApp extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
+			.antMatchers("/admin").hasRole("admin")
+			.antMatchers("/user").hasRole("user")
+			.antMatchers("/private").fullyAuthenticated()
+			.antMatchers("/public").permitAll()
 			.antMatchers("/login*").permitAll()
 			.antMatchers("/logout*").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
 			.loginPage("/login.html")
-			.defaultSuccessUrl("/pais",true)
+			.defaultSuccessUrl("/pais",false)
 			.and()
 			.logout();
 	}
