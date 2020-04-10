@@ -17,8 +17,8 @@ public class ClientePaisApp extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/admin").hasRole("admin")
-				.antMatchers("/user").hasRole("user")
+				.antMatchers("/admin").hasAuthority("admin")
+				.antMatchers("/user").hasAnyAuthority("user")
 				.antMatchers("/private").fullyAuthenticated()
 				.antMatchers("/public").permitAll()
 				.antMatchers("/login*").permitAll()
